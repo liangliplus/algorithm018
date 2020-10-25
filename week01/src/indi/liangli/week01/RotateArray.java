@@ -53,6 +53,7 @@ class Solution {
     }
 
     public void rotate(int[] nums, int k) {
+        k %= nums.length;
         //解法，循环k次，每次旋转一个元素。 暴力
         //解法2，通过 (i + k ) % length, 保存到新数组，在赋值给实际数组
         //解法3 ，旋转整个数组，然后在旋转前k - 1 个元素，在旋转 n -k 个元素
