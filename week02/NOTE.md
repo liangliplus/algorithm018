@@ -8,7 +8,7 @@
 
 HashMap 是一个保存键和值映射关系的集合， 底层采用数组+链表（红黑树）数据结构
 
-继承至`AbstractMap` ,实现勒`Serializable` , `Cloneable` ,`Map<K,V>` 接口，表明是可以序列化和扩容的。
+继承至`AbstractMap` ,实现了`Serializable` , `Cloneable` ,`Map<K,V>` 接口，表明是可以序列化和可克隆的。
 
 线程不安全的，如果需要在高并发场景使用，可使用`ConcurrentHashMap`
 
