@@ -155,7 +155,7 @@ private void siftUpComparable(int k, E x) {
 
 #### 具体插入过程图解
 
-![priority](../images/优先级队列.png)
+![priority](https://github.com/liangliplus/algorithm018/tree/master/images/优先级队列.png)
 
 
 
