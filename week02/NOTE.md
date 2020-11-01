@@ -2,6 +2,134 @@
 
 # 学习笔记
 
+## 数据结构
+
+### 栈
+
+**基本概念**
+
+栈的定义就是后进先出， 继承至`Vector`, 
+
+平时使用比较多的`push` 把元素压入栈和`pop` 把元素弹出栈，通过`peek()` 可以查看栈顶的元素,官方建立我们使用双端队列 `Deque<Integer> stack = new ArrayDeque<>()`,因为可以从双端出队和入队，所以应用场景更多 
+
+**基本使用**
+
+```java
+Stack<Integer> stack = new Stack<>();
+stack.push(111);
+Integer num =  stack.peek(); // 111
+stack.pop();
+stack.peek(); // null
+```
+
+### 队列 
+
+**基本概念**
+
+队列定义是先进先出（`优先队列是列外，它根据元素比较器排序，或者自然顺序`），能在O（1）的时间复杂度度删除和查找队头的元素。
+
+`Queue` 接口继承了Collection<E> ,Iterable<E> 接口。
+
+实现了队列的子接口 [BlockingDeque](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/BlockingDeque.html)<E>, [BlockingQueue](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/BlockingQueue.html)<E>, [Deque](https://docs.oracle.com/javase/8/docs/api/java/util/Deque.html)<E>, [TransferQueue](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/TransferQueue.html)<E> 
+
+常用的类： `LinkedList`,`ArrayBlockingQueue` ,`ArrayDeque` ,`PriorityQueue`
+
+
+
+**方法汇总**
+
+|               | throws exception | return special value |
+| ------------- | ---------------- | -------------------- |
+| insert        | add(e)           | offer(e)             |
+| delete        | remove()         | poll()               |
+| examine(检查) | element()        | peek();              |
+
+**基本使用**
+
+```java
+Queue<Integer> queue = new LinkedList<>();
+//Queue<Integer> queue = new ArrayDeque<>();
+queue.offer(1222);
+queue.poll();
+queue.peek();
+```
+
+
+
+### 树
+
+**基本概念**
+
+理解根节点，父节点，子节点，兄弟节点，叶子节点 
+
+> 我们可以用感性方式取理解高度，深度，层数
+
+* 高度:  可以比作楼房，从地面向上开始计数， 从0开始计数 
+* 深度:  可以比作海里的鱼，从上向下开始计数，从0开始计数
+* 层数 与深度类似，从上向下开始计数，从1开始
+
+树的分类：二叉树（完全二叉树，满二叉树，二叉搜索树），`平衡二叉树（AVL）`，红黑树
+
+关于树的遍历分为 `深度遍历`和`广度遍历`, 一般深度优先遍历可以栈来实现，广度使用队列来实现。
+
+* `深度遍历`
+  * 前序遍历 --> 根， 左， 右
+  * 中序遍历 --> 左  根  右
+  * 层序遍历 --> 左 右 根 
+* `广度遍历`
+  * 层次遍历
+
+```tex
+//伪码
+//前序遍历
+if root == null return;
+print root.val;
+preorder(root.left)
+preorder(root.right)
+//中序遍历 
+if root == null return
+inorder(root.left)
+print root.val
+inorder(root.right)
+
+//后续遍历
+if root == null return 
+postorder(root.left)
+postorder(root.right)
+print root.val
+```
+
+
+
+### 堆 
+
+堆（heap), 是一种特别的**完全二叉树**，若满足以下特性，即可成为堆：给定堆中任意节点P和C，若P是C的父节点
+
+，那么P的值会小于等于（或大于等于）C的值，若父节点的值小于等于子节点的值，此堆称为小顶堆。反之，则是大顶堆，在堆中最顶端节点，称为根节点，根节点没有父节点。
+
+堆的实现通过构造**二叉堆**（binary heap），实为[二叉树](https://zh.wikipedia.org/wiki/%E4%BA%8C%E5%8F%89%E6%A0%91)的一种  。
+
+关于堆的数据结构， 父节点和子节点在数组中顺序：
+
+```tex
+parent(i) = floor((i - 1)/2)
+left(i)   = 2i + 1
+right(i)  = 2i + 2 或者等于 left(i) + 1 
+//注意 right(i) 就是简单的 left(i) + 1。左右节点总是处于相邻的位置
+```
+
+[参考](https://zh.wikipedia.org/wiki/%E5%A0%86%E7%A9%8D)
+
+
+
+## 算法
+
+### 递归
+
+
+
+
+
 ## HashMap 分析
 
 ### 概要
