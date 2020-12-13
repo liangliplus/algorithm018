@@ -20,24 +20,25 @@ import java.util.Map;
 
 public class TwoSum {
     public static void main(String[] args) {
-    
+
         Solution solution = new TwoSum().new Solution();
     }
-    //leetcode submit region begin(Prohibit modification and deletion)
-class Solution {
-    public int[] twoSum(int[] nums, int target) {
-        //思路 ： 当 a + b = c ，可以转为 b = c - a,我们可以存储c -a 的结果，判断循环是否有b
-        Map<Integer,Integer> map = new HashMap<>();
-        for (int i = 0; i < nums.length; i++) {
-            if (map.containsKey(target - nums[i])) {
-                return new int[] {map.get(target - nums[i]),i};
-            }
-            map.put(nums[i], i);
-        }
 
-        return new int[0];
+    //leetcode submit region begin(Prohibit modification and deletion)
+    class Solution {
+        public int[] twoSum(int[] nums, int target) {
+            //思路 ： 当 a + b = c ，可以转为 b = c - a,我们可以存储c -a 的结果，判断循环是否有b
+            Map<Integer, Integer> map = new HashMap<>();
+            for (int i = 0; i < nums.length; i++) {
+                if (map.containsKey(target - nums[i])) {
+                    return new int[]{map.get(target - nums[i]), i};
+                }
+                map.put(nums[i], i);
+            }
+
+            return new int[0];
+        }
     }
-}
 //leetcode submit region end(Prohibit modification and deletion)
 
 }

@@ -2,6 +2,12 @@
 
 # 学习笔记
 
+>  为什么树的面试解法一般都是递归？ 
+
+因为树这种数据结构本身就具有相识性， 比如从根可以划分为左子树和右子树，
+
+对于左子树有可以划分，我们进行前，中，后序遍历时，需要依次返回节点，采用递归会更方便。 
+
 ## 数据结构
 
 ### 栈
@@ -120,13 +126,244 @@ right(i)  = 2i + 2 或者等于 left(i) + 1
 
 [参考](https://zh.wikipedia.org/wiki/%E5%A0%86%E7%A9%8D)
 
+### **堆的代码实现**
+
+```java
+
+import java.util.Arrays;
+import java.util.NoSuchElementException;
+
+
+public class BinaryHeap {
+
+
+    private static final int d = 2;
+    private int[] heap;
+    private int heapSize;
+
+
+    /**
+     * This will initialize our heap with default size.
+     */
+    public BinaryHeap(int capacity) {
+        heapSize = 0;
+        heap = new int[capacity + 1];
+        Arrays.fill(heap, -1);
+    }
+
+
+    public boolean isEmpty() {
+        return heapSize == 0;
+    }
+
+
+    public boolean isFull() {
+        return heapSize == heap.length;
+    }
+
+
+
+
+    private int parent(int i) {
+        return (i - 1) / d;
+    }
+
+
+    private int kthChild(int i, int k) {
+        return d * i + k;
+    }
+
+
+    /**
+     * Inserts new element in to heap
+     * Complexity: O(log N)
+     * As worst case scenario, we need to traverse till the root
+     */
+    public void insert(int x) {
+        if (isFull()) {
+            throw new NoSuchElementException("Heap is full, No space to insert new element");
+        }
+        heap[heapSize] = x;
+        heapSize ++;
+        heapifyUp(heapSize - 1);
+    }
+
+
+    /**
+     * Deletes element at index x
+     * Complexity: O(log N)
+     */
+    public int delete(int x) {
+        if (isEmpty()) {
+            throw new NoSuchElementException("Heap is empty, No element to delete");
+        }
+        int maxElement = heap[x];
+        heap[x] = heap[heapSize - 1];
+        heapSize--;
+        heapifyDown(x);
+        return maxElement;
+    }
+
+
+    /**
+     * Maintains the heap property while inserting an element.
+     */
+    private void heapifyUp(int i) {
+        int insertValue = heap[i];
+        while (i > 0 && insertValue > heap[parent(i)]) {
+            heap[i] = heap[parent(i)];
+            i = parent(i);
+        }
+        heap[i] = insertValue;
+    }
+
+
+    /**
+     * Maintains the heap property while deleting an element.
+     */
+    private void heapifyDown(int i) {
+        int child;
+        int temp = heap[i];
+        while (kthChild(i, 1) < heapSize) {
+            child = maxChild(i);
+            if (temp >= heap[child]) {
+                break;
+            }
+            heap[i] = heap[child];
+            i = child;
+        }
+        heap[i] = temp;
+    }
+
+
+    private int maxChild(int i) {
+        int leftChild = kthChild(i, 1);
+        int rightChild = kthChild(i, 2);
+        return heap[leftChild] > heap[rightChild] ? leftChild : rightChild;
+    }
+
+
+    /**
+     * Prints all elements of the heap
+     */
+    public void printHeap() {
+        System.out.print("nHeap = ");
+        for (int i = 0; i < heapSize; i++)
+            System.out.print(heap[i] + " ");
+        System.out.println();
+    }
+
+
+    /**
+     * This method returns the max element of the heap.
+     * complexity: O(1)
+     */
+    public int findMax() {
+        if (isEmpty())
+            throw new NoSuchElementException("Heap is empty.");
+        return heap[0];
+    }
+
+
+    public static void main(String[] args) {
+        BinaryHeap maxHeap = new BinaryHeap(10);
+        maxHeap.insert(10);
+        maxHeap.insert(4);
+        maxHeap.insert(9);
+        maxHeap.insert(1);
+        maxHeap.insert(7);
+        maxHeap.insert(5);
+        maxHeap.insert(3);
+
+
+        maxHeap.printHeap();
+        maxHeap.delete(5);
+        maxHeap.printHeap();
+        maxHeap.delete(2);
+        maxHeap.printHeap();
+    }
+}
+```
+
+- 堆的实现代码：[ https://shimo.im/docs/Lw86vJzOGOMpWZz2/](https://shimo.im/docs/Lw86vJzOGOMpWZz2/)
+
 
 
 ## 算法
 
 ### 递归
 
+**递归代码模板**
 
+```java
+public void recur(int level,String ... params) {
+    // terminator
+    if (level > MAX) {
+        //process result;
+        return;
+    }
+    
+    //process current level logic 
+    process(params);
+    
+    //drill down 
+    recur(level + 1, params);
+    
+    //revert status  (如果修改全局变量需要清理状态后返回上一层)
+} 
+```
+
+
+
+**树前中后序遍历**
+
+> 前序  根左右
+>
+> 中序  左根右
+>
+> 后序  左右根 
+>
+> 前，中， 后表示根所在的位置
+
+```java
+//前序
+List<Integer> result = new Arraylist<>();
+public void preorder(TreeNode root) {
+    if (root == null) {return;}
+    result.add(root.val);
+     preorder(root.left);
+     preorder(root.right);
+}
+
+//中序
+public void inorder(TreeNode root) {
+    if (root == null) {return;}
+    inorder(root.left);
+    result.add(root.val);
+    inorder(root.right);
+}
+
+//后序
+public void postorder(TreeNode root) {
+    if (root == null) {return;}
+    postorder(root.left);
+    postorder(root.right);
+    result.add(root.val);
+}
+
+```
+
+
+
+**思考： 关于二叉搜索树，删除节点如何操作 ？**
+
+如果是删除叶子节点直接删除，
+
+如果删除父亲节点，从左右子树找一个最接近父节点值的节点，让她称为新的父节点。也是一样重复搜索过程
+
+先从右子树开始找，然后判断，判断删除节点是否比遍历节点小，小左边，大右边 。
+
+关于搜索树也可能退化为链表形式，这里就需要平衡（涉及更高级的数据结构AVL 树 ）
 
 
 
@@ -135,6 +372,24 @@ right(i)  = 2i + 2 或者等于 left(i) + 1
 ## 关于特征问题求解
 
 
+
+## 实战题目
+
+
+
+- [有效的字母异位词](https://leetcode-cn.com/problems/valid-anagram/description/)（亚马逊、Facebook、谷歌在半年内面试中考过）
+- [两数之和](https://leetcode-cn.com/problems/two-sum/description/)（近半年内，亚马逊考查此题达到 216 次、字节跳动 147 次、谷歌 104 次，Facebook、苹果、微软、腾讯也在近半年内面试常考）
+- [N 叉树的前序遍历](https://leetcode-cn.com/problems/n-ary-tree-preorder-traversal/description/)（亚马逊在半年内面试中考过）
+- HeapSort ：自学 <https://www.geeksforgeeks.org/heap-sort/>
+
+### 中等：
+
+- [字母异位词分组](https://leetcode-cn.com/problems/group-anagrams/)（亚马逊在半年内面试中常考）
+- [二叉树的中序遍历](https://leetcode-cn.com/problems/binary-tree-inorder-traversal/)（亚马逊、字节跳动、微软在半年内面试中考过）
+- [二叉树的前序遍历](https://leetcode-cn.com/problems/binary-tree-preorder-traversal/)（字节跳动、谷歌、腾讯在半年内面试中考过）
+- [N 叉树的层序遍历](https://leetcode-cn.com/problems/n-ary-tree-level-order-traversal/)（亚马逊在半年内面试中考过）
+- [丑数](https://leetcode-cn.com/problems/chou-shu-lcof/)（字节跳动在半年内面试中考过）
+- [前 K 个高频元素](https://leetcode-cn.com/problems/top-k-frequent-elements/)（亚马逊在半年内面试中常考）
 
 
 

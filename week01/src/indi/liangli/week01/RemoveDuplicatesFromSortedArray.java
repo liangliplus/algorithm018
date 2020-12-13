@@ -45,26 +45,29 @@
 
 
 package indi.liangli.week01;
+
 public class RemoveDuplicatesFromSortedArray {
     public static void main(String[] args) {
-    
+
         Solution solution = new RemoveDuplicatesFromSortedArray().new Solution();
-        System.out.println(solution.removeDuplicates(new int[]{1,1,2}));
+        System.out.println(solution.removeDuplicates(new int[]{1, 1, 2}));
     }
+
     //leetcode submit region begin(Prohibit modification and deletion)
-class Solution {
-    public int removeDuplicates(int[] nums) {
-        //思路：双指针，使用一个指针j， 当有重复元素 j 一直自增，当遇到不重复元素后，让把nums[j] 赋值给i
-        int j = 0;
-        for (int i = 0; i < nums.length; i++) {
-            if (nums[i] != nums[j]) {
-                j++;
-                nums[j] = nums[i];
+    class Solution {
+        public int removeDuplicates(int[] nums) {
+            //思路：双指针，使用一个指针j，
+            //当有重复元素 j 一直自增，当遇到不重复元素后，让把nums[j] 赋值给i
+            int j = 0;
+            for (int i = 0; i < nums.length; i++) {
+                if (nums[i] != nums[j]) {
+                    j++;
+                    nums[j] = nums[i];
+                }
             }
+            return j + 1;
         }
-        return j + 1;
     }
-}
 //leetcode submit region end(Prohibit modification and deletion)
 
 }

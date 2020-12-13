@@ -27,48 +27,48 @@ import java.util.Map;
 
 public class GroupAnagrams {
     public static void main(String[] args) {
-    
+
         Solution solution = new GroupAnagrams().new Solution();
-        String[] strs = {"eat","tea","tan","ate","nat","bat"};
+        String[] strs = {"eat", "tea", "tan", "ate", "nat", "bat"};
         List<List<String>> lists = solution.groupAnagrams(strs);
         System.out.println(lists);
         System.out.println(185 % 16);
 
 
-
     }
+
     //leetcode submit region begin(Prohibit modification and deletion)
-class Solution {
-    public List<List<String>> groupAnagrams(String[] strs) {
-       //省去排序步骤。
-        //对字符进行计数， 把每个字符串拆分位数组生成生成一个 key， key的组成是字符在对应位置出现的次数
-        if (strs.length == 0) {
-            return new ArrayList<>();
+    class Solution {
+        public List<List<String>> groupAnagrams(String[] strs) {
+            //省去排序步骤。
+            //对字符进行计数， 把每个字符串拆分位数组生成生成一个 key， key的组成是字符在对应位置出现的次数
+            if (strs.length == 0) {
+                return new ArrayList<>();
+            }
+            Map<String, List<String>> map = new HashMap<>();
+            for (String str : strs) {
+                int[] counter = new int[26];
+                for (char c : str.toCharArray()) {
+                    counter[c - 'a']++;
+                }
+
+                //生成key
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < 26; i++) {
+                    sb.append("#");
+                    sb.append(counter[i]);
+                }
+                String key = sb.toString();
+                if (!map.containsKey(key)) {
+                    map.put(key, new ArrayList<>());
+                }
+                map.get(key).add(str);
+            }
+            return new ArrayList<>(map.values());
+
+
         }
-        Map<String,List<String>> map = new HashMap<>();
-        for (String str : strs) {
-            int[] counter = new int[26];
-            for (char c : str.toCharArray()) {
-                counter[ c - 'a']++;
-            }
-
-            //生成key
-            StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < 26; i++) {
-                sb.append("#");
-                sb.append(counter[i]);
-            }
-            String key = sb.toString();
-            if (!map.containsKey(key)) {
-                map.put(key,new ArrayList<>());
-            }
-            map.get(key).add(str);
-        }
-        return new ArrayList<>(map.values());
-
-
     }
-}
 //leetcode submit region end(Prohibit modification and deletion)
 
 }
